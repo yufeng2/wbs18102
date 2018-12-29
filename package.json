@@ -1,0 +1,15 @@
+{
+  "name": "Git",
+  "version": "1.0.0",
+  "description": "版本管理软件的重要性——实现代码的维护（安全、操作/恢复）！",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
