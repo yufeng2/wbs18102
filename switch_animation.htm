@@ -1,0 +1,119 @@
+<canvas id="c" width="40" height="20" on="blue" off="gray" circle="white" status="on"></canvas>
+<script>
+    let c = document.querySelector("#c");
+    let ctx = c.getContext("2d");
+
+    const WIDTH = c.width;
+    const HEIGHT = c.height;
+
+    const COLOR_ON = c.getAttribute("on");
+    const COLOR_OFF = c.getAttribute("off");
+    const COLOR_CIRCLE = c.getAttribute("circle");
+
+    // 圆粑粑外的边框
+    const BORDER = 2;
+
+    // 背景圆的半径为高度的一半
+    const R = HEIGHT / 2;
+
+    // 根据给定的status，绘制加载时的初始化状态
+    if (c.getAttribute("status") == "on")
+        on();
+    else
+        off();
+
+    // 响应单击事件（切换开启和关闭的状态）
+    c.onclick = function() {
+        if (c.getAttribute("status") == "on")
+            off();
+        else
+            on();
+    }
+
+    // 绘制开启
+    function on() {
+        console.log("on");
+
+        // 动画（改circle的x轴圆心位置）
+        let x = R;  // 从左往右，一直运动到WIDTH - R
+
+        let handle = setInterval(function() {
+            // 开启时的背景颜色
+            ctx.fillStyle = COLOR_ON;
+    
+            // 左侧圆
+            ctx.beginPath();
+            ctx.arc(R, R, R, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+    
+            // 绘制一个矩形连接两侧的圆
+            ctx.fillRect(R, 0, WIDTH - R * 2, HEIGHT);
+    
+            // 右侧圆
+            ctx.beginPath();
+            ctx.arc(WIDTH - R, R, R, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+    
+            // 绘制圆粑粑
+            ctx.fillStyle = COLOR_CIRCLE;
+            ctx.beginPath();
+            ctx.arc(x, R, R - BORDER, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+            if (x == WIDTH - R)
+                clearInterval(handle);
+            else
+                x ++;
+    
+        }, 10);
+        // 修改状态为on
+        c.setAttribute("status", "on");
+    }
+
+    // 绘制关闭
+    function off() {
+        console.log("off");
+
+        // 动画（改circle的x轴圆心位置）
+        let x = WIDTH - R;  // 从右往左，一直运动到R
+
+        let handle = setInterval(function() {
+            // 关闭时的背景颜色
+            ctx.fillStyle = COLOR_OFF;
+    
+            // 左侧圆
+            ctx.beginPath();
+            ctx.arc(R, R, R, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+    
+            // 绘制一个矩形连接两侧的圆
+            ctx.fillRect(R, 0, WIDTH - R * 2, HEIGHT);
+    
+            // 右侧圆
+            ctx.beginPath();
+            ctx.arc(WIDTH - R, R, R, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+    
+            // 绘制圆粑粑
+            ctx.fillStyle = COLOR_CIRCLE;
+            ctx.beginPath();
+            ctx.arc(x, R, R - BORDER, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.closePath();
+
+            if (x == R)
+                clearInterval(handle);
+            else
+                x --;
+        }, 10);
+
+        // 修改状态为off
+        c.setAttribute("status", "off");
+    }
+</script>
+
